@@ -1,45 +1,48 @@
 import Foundation
 
 func calculateAverageAge(with values: [Int]) {
-    var lessThanEighteen: Double = 0
-    var countLessThanEighteen: Double = 0
+    let initialTuple = (lessThan18: 0.0, countLessThan18: 0.0, between19and40: 0.0, countBetween19and40: 0.0, moreThan41: 0.0, countMoreThan41: 0.0, totalAges: 0.0)
     
-    var betweenNineteenAndForty: Double = 0
-    var countBetweenNineteenAndForty: Double = 0
-    
-    var moreThanFortyOne: Double = 0
-    var countMoreThanFortyOne: Double = 0
-    
-    var allAges: Double = 0
-    
-    values.forEach({ age in
-        if age > 0 {
-            if age <= 18 {
-                countLessThanEighteen += 1
-                lessThanEighteen += Double(age)
-            }
+    let tuple = values.reduce(initialTuple) { acumulator, age in
+        var acumulator = acumulator
+        
+        if age <= 18 {
+            let previousValue = acumulator.lessThan18 + Double(age)
+            acumulator.lessThan18 = previousValue
             
-            else if age >= 19 && age <= 40 {
-                countBetweenNineteenAndForty += 1
-                betweenNineteenAndForty += Double(age)
-            }
-            
-            else if age >= 41 {
-                countMoreThanFortyOne += 1
-                moreThanFortyOne += Double(age)
-            }
-            
-            allAges += Double(age)
+            let previousCountValue = acumulator.countLessThan18 + 1
+            acumulator.countLessThan18 = previousCountValue
         }
-    })
+        
+        else if age >= 19 && age <= 40 {
+            let previousValue = acumulator.between19and40 + Double(age)
+            acumulator.between19and40 = previousValue
+            
+            let previousCountValue = acumulator.countBetween19and40 + 1
+            acumulator.countBetween19and40 = previousCountValue
+        }
+        
+        else if age >= 41 {
+            let previousValue = acumulator.moreThan41 + Double(age)
+            acumulator.moreThan41 = previousValue
+            
+            let previousCountValue = acumulator.countMoreThan41 + 1
+            acumulator.countMoreThan41 = previousCountValue
+        }
+        
+        let previousValue = acumulator.totalAges + Double(age)
+        acumulator.totalAges = previousValue
+       
+        return acumulator
+    }
     
-    printResult(withCount: countLessThanEighteen, withTotal: lessThanEighteen, withLabel: "less than 18")
+    printResult(withCount: tuple.countLessThan18, withTotal: tuple.lessThan18, withLabel: "Less than 18")
     
-    printResult(withCount: countBetweenNineteenAndForty, withTotal: betweenNineteenAndForty, withLabel: "between 19 and 41")
+    printResult(withCount: tuple.countBetween19and40, withTotal: tuple.between19and40, withLabel: "Between 19 and 40")
     
-    printResult(withCount: countMoreThanFortyOne, withTotal: moreThanFortyOne, withLabel: "more than 41")
-    
-    printResult(withCount: Double(values.count), withTotal: allAges, withLabel: "All ages")
+    printResult(withCount: tuple.countMoreThan41, withTotal: tuple.moreThan41, withLabel: "More than 41")
+
+    printResult(withCount: Double(values.count), withTotal: tuple.totalAges, withLabel: "All ages")
 
 }
 
