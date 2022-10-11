@@ -33,28 +33,21 @@ func calculateAverageAge(with values: [Int]) {
         }
     })
     
-    if lessThanEighteen > 0 {
-        print("lessThan 18: \(lessThanEighteen / countLessThanEighteen)")
-    } else {
-        print("lessThan 18: 0")
-    }
+    printResult(withCount: countLessThanEighteen, withTotal: lessThanEighteen, withLabel: "less than 18")
     
-    if betweenNineteenAndForty > 0 {
-        print("between 19 and 41: \(betweenNineteenAndForty / countBetweenNineteenAndForty)")
-    } else {
-        print("between 19 and 41: 0")
-    }
+    printResult(withCount: countBetweenNineteenAndForty, withTotal: betweenNineteenAndForty, withLabel: "between 19 and 41")
     
-    if moreThanFortyOne > 0 {
-        print("more than 41: \(moreThanFortyOne / countMoreThanFortyOne)")
-    } else {
-        print("more than 41: 0")
-    }
+    printResult(withCount: countMoreThanFortyOne, withTotal: moreThanFortyOne, withLabel: "more than 41")
     
-    if allAges > 0 {
-        print("All ages: \(allAges / Double(values.count))")
+    printResult(withCount: Double(values.count), withTotal: allAges, withLabel: "All ages")
+
+}
+
+private func printResult(withCount count: Double, withTotal total: Double, withLabel label: String){
+    if count > 0 {
+        print("\(label): \(total / count)")
     } else {
-        print("All ages: 0")
+        print("\(label): 0")
     }
 }
 
